@@ -13,6 +13,9 @@ app.use(loggerMiddleware);
 
 setupOpenapi(app);
 
-app.route("/", booksRouter).notFound(notFoundHandler).onError(errorHandler);
+app.route("/", booksRouter);
+
+app.notFound(notFoundHandler);
+app.onError(errorHandler);
 
 export default app;

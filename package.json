@@ -1,8 +1,13 @@
 {
   "name": "hono-api-template",
-  "license": "MIT",
+  "type": "module",
   "version": "0.0.1",
   "description": "A template for Hono API with OpenAPI and Zod validation",
+  "author": {
+    "name": "Jesse Ajioh",
+    "url": "https://gihub.com/ajiohjesse"
+  },
+  "license": "MIT",
   "keywords": [
     "hono",
     "api",
@@ -11,15 +16,12 @@
     "cloudflare",
     "workers"
   ],
-  "author": {
-    "name": "Jesse Ajioh",
-    "url": "https://gihub.com/ajiohjesse"
-  },
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "test": "vitest"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.3",
@@ -36,9 +38,12 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.12.0",
+    "@cloudflare/vitest-pool-workers": "^0.8.15",
     "@cloudflare/workers-types": "^4.20250214.0",
     "eslint": "^9.24.0",
     "eslint-plugin-format": "^1.0.1",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "~3.0.0",
     "wrangler": "^4.4.0"
   }
 }

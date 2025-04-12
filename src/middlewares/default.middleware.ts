@@ -1,8 +1,17 @@
-import type { ErrorHandler, NotFoundHandler } from "hono";
+import type { ErrorHandler, MiddlewareHandler, NotFoundHandler } from "hono";
 
 import { HTTPException } from "hono/http-exception";
 
 import type { ApiResponse, AppEnv } from "@/libs/types";
+
+export const healthCheckHandler: MiddlewareHandler = async (c) => {
+  return c.json<ApiResponse>({
+    success: true,
+    statusCode: 200,
+    message: "OK",
+    data: null,
+  });
+};
 
 export const notFoundHandler: NotFoundHandler = async (c) => {
   return c.json<ApiResponse>({

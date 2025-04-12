@@ -10,7 +10,6 @@ export const bookDocs = {
     operationId: "getAllBooks",
     description: "This returns a list of all books",
     tags: ["Books"],
-    security: [{ bearerAuth: [] }],
     responses: {
       200: {
         description: "Success",
@@ -24,6 +23,7 @@ export const bookDocs = {
     operationId: "createBook",
     description: "This creates a new book record",
     tags: ["Books"],
+    security: [{ bearerAuth: [] }],
     responses: {
       200: {
         description: "Success",

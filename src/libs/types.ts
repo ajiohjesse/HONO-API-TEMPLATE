@@ -4,7 +4,7 @@ import type { z } from "zod";
 
 export interface AppEnv {
   Bindings: {
-    MODE?: "production" | "development";
+    MODE?: "production" | "development" | "test";
     JWT_SECRET: string;
 
   };

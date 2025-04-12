@@ -2,14 +2,14 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "hono-api-template",
   "main": "src/index.ts",
-  "compatibility_date": "2025-04-10",
+  "compatibility_date": "2025-04-09"
   // "compatibility_flags": [
   //   "nodejs_compat"
   // ],
-  "kv_namespaces": [
-    {
-      "binding": "KV",
-      "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-    }
-  ],
+  // "kv_namespaces": [
+  //   {
+  //     "binding": "KV",
+  //     "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  //   }
+  // ],
 }
