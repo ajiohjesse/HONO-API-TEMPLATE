@@ -1,18 +1,19 @@
-import { describeRoute } from 'hono-openapi';
-import { resolver } from 'hono-openapi/zod';
-import { bookSchema } from './books.schema';
+import { describeRoute } from "hono-openapi";
+import { resolver } from "hono-openapi/zod";
+
+import { bookSchema } from "./books.schema";
 
 export const bookDocs = {
   getAllBooks: describeRoute({
-    summary: 'Get all books',
-    operationId: 'getAllBooks',
-    description: 'This returns a list of all books',
-    tags: ['Books'],
+    summary: "Get all books",
+    operationId: "getAllBooks",
+    description: "This returns a list of all books",
+    tags: ["Books"],
     responses: {
       200: {
-        description: 'Success',
+        description: "Success",
         content: {
-          'application/json': {
+          "application/json": {
             schema: resolver(bookSchema),
           },
         },
@@ -21,15 +22,15 @@ export const bookDocs = {
   }),
 
   createBook: describeRoute({
-    summary: 'Create book',
-    operationId: 'createBook',
-    description: 'This creates a new book record',
-    tags: ['Books'],
+    summary: "Create book",
+    operationId: "createBook",
+    description: "This creates a new book record",
+    tags: ["Books"],
     responses: {
       200: {
-        description: 'Success',
+        description: "Success",
         content: {
-          'application/json': {
+          "application/json": {
             schema: resolver(bookSchema),
           },
         },

@@ -1,16 +1,14 @@
-import { Scalar } from '@scalar/hono-api-reference';
-import { openAPISpecs } from 'hono-openapi';
-import { createRouter } from './libs/helpers';
-import { cors } from 'hono/cors';
-import 'zod-openapi/extend';
-import { booksRouter } from './routes/books/books.route';
-import { setupOpenapi } from './libs/openapi';
-import { APP_CONFIG } from './libs/app.config';
+import { cors } from "hono/cors";
+import "zod-openapi/extend";
+
+import { createRouter } from "./libs/helpers";
+import { setupOpenapi } from "./libs/openapi";
+import { booksRouter } from "./routes/books/books.route";
 
 const app = createRouter();
 app.use(cors());
 
 setupOpenapi(app);
-app.route('/', booksRouter);
+app.route("/", booksRouter);
 
 export default app;

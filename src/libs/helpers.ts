@@ -1,5 +1,6 @@
-import { Handler, Hono } from 'hono';
-import { AppBindings } from './types';
+import { Hono } from "hono";
+
+import type { AppBindings } from "./types";
 
 export function createRouter() {
   return new Hono<AppBindings>();

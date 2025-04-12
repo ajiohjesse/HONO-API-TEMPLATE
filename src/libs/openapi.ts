@@ -1,12 +1,15 @@
-import { Scalar } from '@scalar/hono-api-reference';
-import { Hono } from 'hono';
-import { openAPISpecs } from 'hono-openapi';
-import { AppBindings } from './types';
-import { APP_CONFIG } from './app.config';
+import type { Hono } from "hono";
+
+import { Scalar } from "@scalar/hono-api-reference";
+import { openAPISpecs } from "hono-openapi";
+
+import type { AppBindings } from "./types";
+
+import { APP_CONFIG } from "./app.config";
 
 export function setupOpenapi(app: Hono<AppBindings>) {
   app.get(
-    '/openapi',
+    "/openapi",
     openAPISpecs(app, {
       documentation: {
         info: {
@@ -15,20 +18,20 @@ export function setupOpenapi(app: Hono<AppBindings>) {
           description: APP_CONFIG.DESCRIPTION,
         },
       },
-    })
+    }),
   );
 
   app.get(
-    '/docs',
+    "/docs",
     Scalar({
-      theme: 'elysiajs',
-      url: '/openapi',
+      theme: "elysiajs",
+      url: "/openapi",
       title: APP_CONFIG.NAME,
-      favicon: '⚡',
+      favicon: "⚡",
       defaultHttpClient: {
-        targetKey: 'node',
-        clientKey: 'fetch',
+        targetKey: "node",
+        clientKey: "fetch",
       },
-    })
+    }),
   );
 }
