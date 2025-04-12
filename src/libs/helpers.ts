@@ -9,20 +9,23 @@ export function createRouter() {
   return new Hono<AppEnv>();
 }
 
-export function validateRequest<T extends z.ZodSchema<any>>(
+export function validateRequest<T extends z.ZodSchema<unknown>>(
   target: "json" | "query" | "param",
-  schema: T,
+  schema: T
 ) {
   return validator(target, schema, (result, c) => {
     if (!result.success) {
-      return c.json<ApiResponse<Record<string, unknown>>>({
-        success: false,
-        statusCode: 400,
-        message: "Invalid request payload",
-        data: {
-          fields: result.error.flatten().fieldErrors,
+      return c.json<ApiResponse<Record<string, unknown>>>(
+        {
+          success: false,
+          statusCode: 400,
+          message: "Invalid request payload",
+          data: {
+            fields: result.error.flatten().fieldErrors,
+          },
         },
-      }, 400);
+        400
+      );
     }
   });
 }

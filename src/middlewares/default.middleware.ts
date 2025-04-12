@@ -4,7 +4,7 @@ import { HTTPException } from "hono/http-exception";
 
 import type { ApiResponse, AppEnv } from "@/libs/types";
 
-export const healthCheckHandler: MiddlewareHandler = async (c) => {
+export const healthCheckHandler: MiddlewareHandler = async c => {
   return c.json<ApiResponse>({
     success: true,
     statusCode: 200,
@@ -13,7 +13,7 @@ export const healthCheckHandler: MiddlewareHandler = async (c) => {
   });
 };
 
-export const notFoundHandler: NotFoundHandler = async (c) => {
+export const notFoundHandler: NotFoundHandler = async c => {
   return c.json<ApiResponse>({
     success: false,
     message: "Not Found",
@@ -24,20 +24,26 @@ export const notFoundHandler: NotFoundHandler = async (c) => {
 
 export const errorHandler: ErrorHandler<AppEnv> = async (err, c) => {
   if (err instanceof HTTPException) {
-    return c.json<ApiResponse>({
-      success: false,
-      message: err.message,
-      statusCode: err.status,
-      data: null,
-    }, err.status);
+    return c.json<ApiResponse>(
+      {
+        success: false,
+        message: err.message,
+        statusCode: err.status,
+        data: null,
+      },
+      err.status
+    );
   }
 
   c.var.logger.error("Internal Server Error", err);
 
-  return c.json<ApiResponse>({
-    success: false,
-    message: "Internal Server Error",
-    statusCode: 500,
-    data: null,
-  }, 500);
+  return c.json<ApiResponse>(
+    {
+      success: false,
+      message: "Internal Server Error",
+      statusCode: 500,
+      data: null,
+    },
+    500
+  );
 };

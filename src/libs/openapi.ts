@@ -29,7 +29,7 @@ export function setupOpenapi(app: Hono<AppEnv>) {
           },
         },
       },
-    }),
+    })
   );
 
   app.get(
@@ -43,7 +43,7 @@ export function setupOpenapi(app: Hono<AppEnv>) {
         targetKey: "node",
         clientKey: "fetch",
       },
-    }),
+    })
   );
 }
 
@@ -56,10 +56,12 @@ const baseResponseSchema = z.object({
 export function openApiJsonContent(schema: z.Schema) {
   return {
     "application/json": {
-      schema: resolver(z.object({
-        ...baseResponseSchema.shape,
-        data: schema,
-      })),
+      schema: resolver(
+        z.object({
+          ...baseResponseSchema.shape,
+          data: schema,
+        })
+      ),
     },
   };
 }
@@ -67,15 +69,17 @@ export function openApiJsonContent(schema: z.Schema) {
 export function openApiPaginatedJsonContent(schema: z.Schema) {
   return {
     "application/json": {
-      schema: resolver(z.object({
-        ...baseResponseSchema.shape,
-        data: z.object({
-          items: schema.array(),
-          currentPage: z.number().openapi({ example: 1 }),
-          totalItems: z.number().openapi({ example: 100 }),
-          pageSize: z.number().openapi({ example: 10 }),
-        }),
-      })),
+      schema: resolver(
+        z.object({
+          ...baseResponseSchema.shape,
+          data: z.object({
+            items: schema.array(),
+            currentPage: z.number().openapi({ example: 1 }),
+            totalItems: z.number().openapi({ example: 100 }),
+            pageSize: z.number().openapi({ example: 10 }),
+          }),
+        })
+      ),
     },
   };
 }

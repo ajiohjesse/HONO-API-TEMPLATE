@@ -1,6 +1,9 @@
 import { describeRoute } from "hono-openapi";
 
-import { openApiJsonContent, openApiPaginatedJsonContent } from "@/libs/openapi";
+import {
+  openApiJsonContent,
+  openApiPaginatedJsonContent,
+} from "@/libs/openapi";
 
 import { bookSchema } from "./book.schema";
 

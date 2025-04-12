@@ -6,11 +6,9 @@ import pino from "pino";
 export const loggerMiddleware: MiddlewareHandler = async (c, next) => {
   const isDev = c.env.MODE === "development";
   const logger = pinoLogger({
-    pino: pino(
-      {
-        level: isDev ? "debug" : "info",
-      },
-    ),
+    pino: pino({
+      level: isDev ? "debug" : "info",
+    }),
     http: isDev
       ? false
       : {

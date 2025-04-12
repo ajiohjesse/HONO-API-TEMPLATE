@@ -1,3 +1,4 @@
+import { KVNamespace } from "@cloudflare/workers-types";
 import type { PinoLogger } from "hono-pino";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import type { z } from "zod";
@@ -6,7 +7,7 @@ export interface AppEnv {
   Bindings: {
     MODE?: "production" | "development" | "test";
     JWT_SECRET: string;
-
+    KV: KVNamespace;
   };
   Variables: {
     logger: PinoLogger;

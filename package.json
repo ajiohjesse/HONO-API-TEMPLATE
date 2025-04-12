@@ -19,9 +19,11 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",
+    "test": "vitest",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix",
-    "test": "vitest"
+    "lint:fix": "eslint . --fix",
+    "format:check": "prettier --check .",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@hono/zod-validator": "^0.4.3",
@@ -37,11 +39,15 @@
     "zod-openapi": "^4.2.4"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.12.0",
     "@cloudflare/vitest-pool-workers": "^0.8.15",
     "@cloudflare/workers-types": "^4.20250214.0",
+    "@eslint/js": "^9.24.0",
     "eslint": "^9.24.0",
-    "eslint-plugin-format": "^1.0.1",
+    "eslint-config-prettier": "^10.1.2",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "typescript-eslint": "^8.29.1",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "~3.0.0",
     "wrangler": "^4.4.0"

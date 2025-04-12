@@ -3,7 +3,10 @@ import "zod-openapi/extend";
 
 import { createRouter } from "./libs/helpers";
 import { setupOpenapi } from "./libs/openapi";
-import { errorHandler, notFoundHandler } from "./middlewares/default.middleware";
+import {
+  errorHandler,
+  notFoundHandler,
+} from "./middlewares/default.middleware";
 import { loggerMiddleware } from "./middlewares/logger.middleware";
 import { booksRouter } from "./routes/books/book.route";
 
