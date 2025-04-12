@@ -1,7 +1,6 @@
+import type { ApiResponse, AppEnv } from "@/libs/types";
 import { createMiddleware } from "hono/factory";
 import { verify } from "hono/jwt";
-
-import type { ApiResponse, AppEnv } from "@/libs/types";
 
 export const authMiddleware = createMiddleware<{
   Bindings: AppEnv["Bindings"];

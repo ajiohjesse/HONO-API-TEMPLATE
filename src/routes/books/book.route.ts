@@ -1,11 +1,8 @@
-import type { ApiPaginatedResponse, ApiResponse } from "@/libs/types";
-
 import { createRouter, validateRequest } from "@/libs/helpers";
+import type { ApiPaginatedResponse, ApiResponse } from "@/libs/types";
 import { authMiddleware } from "@/middlewares/auth.middleware";
-
-import type { BookDTO } from "./book.schema";
-
 import { bookDocs } from "./book.docs";
+import type { BookDTO } from "./book.schema";
 import { bookSchema } from "./book.schema";
 import booksService from "./book.service";
 

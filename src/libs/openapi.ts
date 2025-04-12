@@ -1,13 +1,10 @@
-import type { Hono } from "hono";
-
 import { Scalar } from "@scalar/hono-api-reference";
+import type { Hono } from "hono";
 import { openAPISpecs } from "hono-openapi";
 import { resolver } from "hono-openapi/zod";
 import { z } from "zod";
-
-import type { AppEnv } from "./types";
-
 import { APP_CONFIG } from "./app.config";
+import type { AppEnv } from "./types";
 
 export function setupOpenapi(app: Hono<AppEnv>) {
   app.get(

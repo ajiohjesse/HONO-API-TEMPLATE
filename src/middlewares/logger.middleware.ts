@@ -1,5 +1,4 @@
 import type { MiddlewareHandler } from "hono";
-
 import { pinoLogger } from "hono-pino";
 import pino from "pino";
 

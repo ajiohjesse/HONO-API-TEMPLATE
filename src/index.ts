@@ -1,6 +1,5 @@
 import { cors } from "hono/cors";
 import "zod-openapi/extend";
-
 import { createRouter } from "./libs/helpers";
 import { setupOpenapi } from "./libs/openapi";
 import {

@@ -1,8 +1,6 @@
-import type { z } from "zod";
-
 import { Hono } from "hono";
 import { validator } from "hono-openapi/zod";
-
+import type { z } from "zod";
 import type { ApiResponse, AppEnv } from "./types";
 
 export function createRouter() {
