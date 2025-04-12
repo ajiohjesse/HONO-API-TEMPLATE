@@ -3,10 +3,12 @@ import "zod-openapi/extend";
 
 import { createRouter } from "./libs/helpers";
 import { setupOpenapi } from "./libs/openapi";
-import { booksRouter } from "./routes/books/books.route";
+import { loggerMiddleware } from "./middlewares/logger.middleware";
+import { booksRouter } from "./routes/books/book.route";
 
 const app = createRouter();
 app.use(cors());
+app.use(loggerMiddleware);
 
 setupOpenapi(app);
 app.route("/", booksRouter);

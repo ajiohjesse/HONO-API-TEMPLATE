@@ -1,4 +1,4 @@
-import type { BookDTO } from "./books.schema";
+import type { BookDTO } from "./book.schema";
 
 class BooksService {
   getAllBooks(): Array<BookDTO> {

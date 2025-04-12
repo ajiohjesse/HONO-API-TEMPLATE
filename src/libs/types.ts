@@ -1,8 +1,14 @@
+import type { PinoLogger } from "hono-pino";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import type { z } from "zod";
 
 export interface AppBindings {
-  Variables: {};
+  Bindings: {
+    MODE?: "production" | "development";
+  };
+  Variables: {
+    logger: PinoLogger;
+  };
 }
 
 export interface ApiResponse<
@@ -24,6 +30,6 @@ export interface ApiPaginatedResponse<
     items: T[];
     totalItems: number;
     currentPage: number;
-    totalPages: number;
+    pageSize: number;
   };
 }

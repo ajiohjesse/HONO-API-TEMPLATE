@@ -1,7 +1,8 @@
 import { describeRoute } from "hono-openapi";
-import { resolver } from "hono-openapi/zod";
 
-import { bookSchema } from "./books.schema";
+import { openApiJsonContent, openApiPaginatedJsonContent } from "@/libs/openapi";
+
+import { bookSchema } from "./book.schema";
 
 export const bookDocs = {
   getAllBooks: describeRoute({
@@ -12,11 +13,7 @@ export const bookDocs = {
     responses: {
       200: {
         description: "Success",
-        content: {
-          "application/json": {
-            schema: resolver(bookSchema),
-          },
-        },
+        content: openApiPaginatedJsonContent(bookSchema),
       },
     },
   }),
@@ -29,11 +26,7 @@ export const bookDocs = {
     responses: {
       200: {
         description: "Success",
-        content: {
-          "application/json": {
-            schema: resolver(bookSchema),
-          },
-        },
+        content: openApiJsonContent(bookSchema),
       },
     },
   }),

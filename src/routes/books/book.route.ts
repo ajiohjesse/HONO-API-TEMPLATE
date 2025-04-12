@@ -4,16 +4,17 @@ import type { ApiPaginatedResponse, ApiResponse } from "@/libs/types";
 
 import { createRouter } from "@/libs/helpers";
 
-import type { BookDTO } from "./books.schema";
+import type { BookDTO } from "./book.schema";
 
-import { bookDocs } from "./books.docs";
-import { bookSchema } from "./books.schema";
-import booksService from "./books.service";
+import { bookDocs } from "./book.docs";
+import { bookSchema } from "./book.schema";
+import booksService from "./book.service";
 
 const router = createRouter();
 export { router as booksRouter };
 
 router.get("/books", bookDocs.getAllBooks, (c) => {
+  c.var.logger.info("Fetching all books");
   const books = booksService.getAllBooks();
   return c.json<ApiPaginatedResponse<BookDTO>>(
     {
@@ -23,7 +24,7 @@ router.get("/books", bookDocs.getAllBooks, (c) => {
       data: {
         items: books,
         currentPage: 1,
-        totalPages: 5,
+        pageSize: 10,
         totalItems: 20,
       },
     },
