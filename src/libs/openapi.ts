@@ -5,11 +5,11 @@ import { openAPISpecs } from "hono-openapi";
 import { resolver } from "hono-openapi/zod";
 import { z } from "zod";
 
-import type { AppBindings } from "./types";
+import type { AppEnv } from "./types";
 
 import { APP_CONFIG } from "./app.config";
 
-export function setupOpenapi(app: Hono<AppBindings>) {
+export function setupOpenapi(app: Hono<AppEnv>) {
   app.get(
     "/openapi",
     openAPISpecs(app, {
@@ -18,6 +18,15 @@ export function setupOpenapi(app: Hono<AppBindings>) {
           title: APP_CONFIG.NAME,
           version: APP_CONFIG.VERSION,
           description: APP_CONFIG.DESCRIPTION,
+        },
+        components: {
+          securitySchemes: {
+            bearerAuth: {
+              type: "http",
+              scheme: "bearer",
+              bearerFormat: "JWT",
+            },
+          },
         },
       },
     }),

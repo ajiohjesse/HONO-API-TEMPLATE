@@ -1,8 +1,9 @@
-import { validator } from "hono-openapi/zod";
+
 
 import type { ApiPaginatedResponse, ApiResponse } from "@/libs/types";
 
-import { createRouter } from "@/libs/helpers";
+import { createRouter, validateRequest } from "@/libs/helpers";
+import { authMiddleware } from "@/middlewares/auth.middleware";
 
 import type { BookDTO } from "./book.schema";
 
@@ -13,9 +14,13 @@ import booksService from "./book.service";
 const router = createRouter();
 export { router as booksRouter };
 
-router.get("/books", bookDocs.getAllBooks, (c) => {
-  c.var.logger.info("Fetching all books");
+router.get("/books", bookDocs.getAllBooks, authMiddleware, (c) => {
+  const { logger } = c.var;
+  const userId = c.get("userId");
+  logger.info("User ID from auth middleware:", userId);
+
   const books = booksService.getAllBooks();
+
   return c.json<ApiPaginatedResponse<BookDTO>>(
     {
       success: true,
@@ -32,7 +37,9 @@ router.get("/books", bookDocs.getAllBooks, (c) => {
   );
 });
 
-router.post("/books", bookDocs.createBook, validator("json", bookSchema), (c) => {
+
+
+router.post("/books", bookDocs.createBook, validateRequest('json', bookSchema), (c) => {
   const book = c.req.valid("json");
   return c.json<ApiResponse<BookDTO>>(
     {

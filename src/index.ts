@@ -3,6 +3,7 @@ import "zod-openapi/extend";
 
 import { createRouter } from "./libs/helpers";
 import { setupOpenapi } from "./libs/openapi";
+import { errorHandler, notFoundHandler } from "./middlewares/default.middleware";
 import { loggerMiddleware } from "./middlewares/logger.middleware";
 import { booksRouter } from "./routes/books/book.route";
 
@@ -11,6 +12,7 @@ app.use(cors());
 app.use(loggerMiddleware);
 
 setupOpenapi(app);
-app.route("/", booksRouter);
+
+app.route("/", booksRouter).notFound(notFoundHandler).onError(errorHandler);
 
 export default app;

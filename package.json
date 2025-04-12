@@ -1,5 +1,20 @@
 {
   "name": "hono-api-template",
+  "license": "MIT",
+  "version": "0.0.1",
+  "description": "A template for Hono API with OpenAPI and Zod validation",
+  "keywords": [
+    "hono",
+    "api",
+    "openapi",
+    "zod",
+    "cloudflare",
+    "workers"
+  ],
+  "author": {
+    "name": "Jesse Ajioh",
+    "url": "https://gihub.com/ajiohjesse"
+  },
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",

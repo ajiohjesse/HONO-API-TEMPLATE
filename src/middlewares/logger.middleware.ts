@@ -11,11 +11,13 @@ export const loggerMiddleware: MiddlewareHandler = async (c, next) => {
         level: isDev ? "debug" : "info",
       },
     ),
-    http: {
-      reqId: () => crypto.randomUUID(),
-      onReqMessage: () => "--> Request received",
-      onResMessage: () => "<-- Request completed",
-    },
+    http: isDev
+      ? false
+      : {
+          reqId: () => crypto.randomUUID(),
+          onReqMessage: () => "--> Request received",
+          onResMessage: () => "<-- Request completed",
+        },
   });
 
   return logger(c, next);

@@ -10,6 +10,7 @@ export const bookDocs = {
     operationId: "getAllBooks",
     description: "This returns a list of all books",
     tags: ["Books"],
+    security: [{ bearerAuth: [] }],
     responses: {
       200: {
         description: "Success",

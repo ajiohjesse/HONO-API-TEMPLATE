@@ -2,9 +2,11 @@ import type { PinoLogger } from "hono-pino";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import type { z } from "zod";
 
-export interface AppBindings {
+export interface AppEnv {
   Bindings: {
     MODE?: "production" | "development";
+    JWT_SECRET: string;
+
   };
   Variables: {
     logger: PinoLogger;
