@@ -10,7 +10,7 @@ const router = createRouter();
 export { router as booksRouter };
 
 router.get("/books", bookDocs.getAllBooks, async c => {
-  const booksService = new BooksService(c.var.db);
+  const booksService = new BooksService(c.var.db, c.var.logger);
   const books = await booksService.getAllBooks();
 
   return c.json<ApiPaginatedResponse<BookDTO>>(

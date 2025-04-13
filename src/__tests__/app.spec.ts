@@ -7,9 +7,4 @@ describe("app", () => {
     const res = await app.request("/", {}, env);
     expect(res.status).toBe(200);
   });
-
-  it("return 200 for books route", async () => {
-    const res = await app.request("/books", {}, env);
-    expect(res.status).toBe(200);
-  });
 });

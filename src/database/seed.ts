@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { config } from "dotenv";
 import { expand } from "dotenv-expand";
-import { InferInsertModel } from "drizzle-orm";
+import { InferInsertModel, sql } from "drizzle-orm";
 import { createDatabase } from ".";
 import { bookTable } from "./schemas";
 
@@ -29,7 +29,9 @@ const books: InferInsertModel<typeof bookTable>[] = [
   },
 ];
 
+console.log("Truncating old records...");
+await db.execute(sql`TRUNCATE TABLE ${bookTable} RESTART IDENTITY `);
 console.log("⚡Inserting records...");
-// await db.execute(sql`TRUNCATE TABLE books `)
 await db.insert(bookTable).values(books);
 console.log("✅➡Seeding complete.");
+process.exit(0);
