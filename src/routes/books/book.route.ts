@@ -4,13 +4,14 @@ import { authMiddleware } from "@/middlewares/auth.middleware";
 import { bookDocs } from "./book.docs";
 import type { BookDTO } from "./book.schema";
 import { bookSchema } from "./book.schema";
-import booksService from "./book.service";
+import { BooksService } from "./book.service";
 
 const router = createRouter();
 export { router as booksRouter };
 
 router.get("/books", bookDocs.getAllBooks, async c => {
-  const books = booksService.getAllBooks();
+  const booksService = new BooksService(c.var.db);
+  const books = await booksService.getAllBooks();
 
   return c.json<ApiPaginatedResponse<BookDTO>>(
     {
@@ -21,7 +22,7 @@ router.get("/books", bookDocs.getAllBooks, async c => {
         items: books,
         currentPage: 1,
         pageSize: 10,
-        totalItems: 20,
+        totalItems: books.length,
       },
     },
     200

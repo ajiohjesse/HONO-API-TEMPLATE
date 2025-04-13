@@ -1,0 +1,5 @@
+# rename to .env.vars
+
+MODE=development
+JWT_SECRET=
+DB_URL=postgresql://postgres:<password>@127.0.0.1:5432/<database_name>

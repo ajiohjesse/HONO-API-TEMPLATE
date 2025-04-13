@@ -1,20 +1,12 @@
+import { DB } from "@/database";
 import type { BookDTO } from "./book.schema";
 
-class BooksService {
-  getAllBooks(): Array<BookDTO> {
-    return [
-      {
-        id: "1",
-        title: "Book 1",
-        author: "Author 1",
-      },
-      {
-        id: "2",
-        title: "Book 2",
-        author: "Author 2",
-      },
-    ];
+export class BooksService {
+  constructor(private readonly db: DB) {
+    this.db = db;
+  }
+
+  async getAllBooks(): Promise<BookDTO[]> {
+    return this.db.query.bookTable.findMany();
   }
 }
-
-export default new BooksService();

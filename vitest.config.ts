@@ -5,9 +5,11 @@ export default defineWorkersConfig({
   plugins: [tsconfigPaths()],
   test: {
     poolOptions: {
+      envPath: ".test.vars",
       workers: {
         wrangler: {
           configPath: "./wrangler.jsonc",
+          environment: "test",
         },
       },
     },
