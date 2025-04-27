@@ -5,6 +5,7 @@ import { setupOpenapi } from "./libs/openapi";
 import { dbMiddleware } from "./middlewares/db.middleware";
 import {
   errorHandler,
+  healthCheckHandler,
   notFoundHandler,
 } from "./middlewares/default.middleware";
 import { loggerMiddleware } from "./middlewares/logger.middleware";
@@ -18,7 +19,9 @@ app.use(loggerMiddleware);
 setupOpenapi(app);
 
 app.use(dbMiddleware);
-app.route("/", booksRouter);
+
+app.get("/", healthCheckHandler);
+app.route("/books", booksRouter);
 
 app.notFound(notFoundHandler);
 app.onError(errorHandler);

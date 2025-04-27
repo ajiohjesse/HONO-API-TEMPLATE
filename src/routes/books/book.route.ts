@@ -9,7 +9,7 @@ import { BooksService } from "./book.service";
 const router = createRouter();
 export { router as booksRouter };
 
-router.get("/books", bookDocs.getAllBooks, async c => {
+router.get("/", bookDocs.getAllBooks, async c => {
   const booksService = new BooksService(c.var.db, c.var.logger);
   const books = await booksService.getAllBooks();
 
@@ -30,7 +30,7 @@ router.get("/books", bookDocs.getAllBooks, async c => {
 });
 
 router.post(
-  "/books",
+  "/",
   bookDocs.createBook,
   authMiddleware,
   validateRequest("json", bookSchema),

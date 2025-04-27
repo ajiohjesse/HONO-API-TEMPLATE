@@ -10,10 +10,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": [
-      "@cloudflare/vitest-pool-workers",
-      "@cloudflare/workers-types/2023-07-01"
-    ],
+    "types": ["@cloudflare/vitest-pool-workers"],
     "strict": true,
     "skipLibCheck": true
   },
@@ -21,6 +18,7 @@
     "src/**/*",
     "src/**/*.spec.ts",
     "src/**/*.test.ts",
-    "vitest.config.ts"
+    "vitest.config.ts",
+    "worker-configuration.d.ts"
   ]
 }

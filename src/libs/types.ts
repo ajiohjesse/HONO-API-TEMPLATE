@@ -1,16 +1,10 @@
 import type { DB } from "@/database";
-import { KVNamespace } from "@cloudflare/workers-types";
 import type { PinoLogger } from "hono-pino";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import type { z } from "zod";
 
 export interface AppEnv {
-  Bindings: {
-    MODE?: "production" | "development" | "test";
-    JWT_SECRET: string;
-    DB_URL: string;
-    KV: KVNamespace;
-  };
+  Bindings: Env;
   Variables: {
     logger: PinoLogger;
     db: DB;

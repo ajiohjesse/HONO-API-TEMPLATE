@@ -32,10 +32,10 @@ export function setupOpenapi(app: Hono<AppEnv>) {
   app.get(
     "/docs",
     Scalar({
-      theme: "elysiajs",
+      theme: "bluePlanet",
       url: "/openapi",
       title: APP_CONFIG.NAME,
-      favicon: "⚡",
+      pageTitle: APP_CONFIG.NAME,
       defaultHttpClient: {
         targetKey: "node",
         clientKey: "fetch",

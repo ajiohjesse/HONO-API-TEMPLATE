@@ -12,12 +12,15 @@ export const healthCheckHandler: MiddlewareHandler = async c => {
 };
 
 export const notFoundHandler: NotFoundHandler = async c => {
-  return c.json<ApiResponse>({
-    success: false,
-    message: "Not Found",
-    statusCode: 404,
-    data: null,
-  });
+  return c.json<ApiResponse>(
+    {
+      success: false,
+      message: "Not Found",
+      statusCode: 404,
+      data: null,
+    },
+    404
+  );
 };
 
 export const errorHandler: ErrorHandler<AppEnv> = async (err, c) => {
