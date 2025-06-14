@@ -1,50 +1,40 @@
-import type { ApiResponse, AppEnv } from "@/libs/types";
+import type { ErrorResponse } from "@/libs/response";
+import type { AppContext } from "@/libs/types";
 import type { ErrorHandler, MiddlewareHandler, NotFoundHandler } from "hono";
 import { HTTPException } from "hono/http-exception";
 
-export const healthCheckHandler: MiddlewareHandler = async c => {
-  return c.json<ApiResponse>({
-    success: true,
-    statusCode: 200,
-    message: "OK",
-    data: null,
-  });
+export const healthCheckHandler: MiddlewareHandler = async () => {
+  return new Response("OK", { status: 200 });
 };
 
 export const notFoundHandler: NotFoundHandler = async c => {
-  return c.json<ApiResponse>(
-    {
-      success: false,
-      message: "Not Found",
-      statusCode: 404,
-      data: null,
+  const data: ErrorResponse = {
+    error: {
+      code: "NOT_FOUND",
+      message: "Resource not found",
     },
-    404
-  );
+  };
+
+  return c.json(data, 404);
 };
 
-export const errorHandler: ErrorHandler<AppEnv> = async (err, c) => {
+export const errorHandler: ErrorHandler<AppContext> = async (err, c) => {
   if (err instanceof HTTPException) {
-    return c.json<ApiResponse>(
-      {
-        success: false,
+    const data: ErrorResponse = {
+      error: {
+        code: "HTTP_EXCEPTION",
         message: err.message,
-        statusCode: err.status,
-        data: null,
       },
-      err.status
-    );
+    };
+    return c.json(data, err.status);
   }
 
   c.var.logger.error("Internal Server Error", err);
-
-  return c.json<ApiResponse>(
-    {
-      success: false,
-      message: "Internal Server Error",
-      statusCode: 500,
-      data: null,
+  const data: ErrorResponse = {
+    error: {
+      code: "INTERNAL_SERVER_ERROR",
+      message: "An unexpected error occurred.",
     },
-    500
-  );
+  };
+  return c.json(data, 500);
 };

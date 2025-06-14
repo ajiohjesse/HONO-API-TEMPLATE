@@ -1,6 +1,6 @@
 import { env } from "cloudflare:test";
 import { describe, expect, it } from "vitest";
-import app from "..";
+import app from "../index";
 
 describe("app", () => {
   it("return 200 for index route", async () => {

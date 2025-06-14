@@ -7,7 +7,6 @@ import tseslint from "typescript-eslint";
 export default [
   {
     files: ["**/*.{js,mjs,cjs,ts}"],
-
     languageOptions: {
       globals: globals.node,
       ecmaVersion: "latest",
@@ -39,6 +38,7 @@ export default [
       ".env*",
       "*.lock",
       ".wrangler",
+      "worker-configuration.d.ts",
     ],
   },
 ];

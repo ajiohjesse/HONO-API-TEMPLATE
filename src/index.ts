@@ -1,6 +1,7 @@
+import { env } from "cloudflare:workers";
 import { cors } from "hono/cors";
-import "zod-openapi/extend";
-import { createRouter } from "./libs/helpers";
+import { secureHeaders } from "hono/secure-headers";
+import { createApp } from "./libs/create-app";
 import { setupOpenapi } from "./libs/openapi";
 import { dbMiddleware } from "./middlewares/db.middleware";
 import {
@@ -8,20 +9,28 @@ import {
   healthCheckHandler,
   notFoundHandler,
 } from "./middlewares/default.middleware";
-import { loggerMiddleware } from "./middlewares/logger.middleware";
-import { booksRouter } from "./routes/books/book.route";
+import { requestLogger } from "./middlewares/logger.middleware";
+import { routers } from "./routers/router";
 
-const app = createRouter();
+const app = createApp();
 
-app.use(cors());
-app.use(loggerMiddleware);
+app.use(secureHeaders());
+app.use(
+  cors({
+    origin: env.ALLOWED_API_ORIGINS?.split(",") ?? [],
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allowHeaders: ["Content-Type", "Authorization"],
+    maxAge: 86400,
+  })
+);
+app.use(requestLogger);
 
 setupOpenapi(app);
 
 app.use(dbMiddleware);
-
+app.get("/health", healthCheckHandler);
 app.get("/", healthCheckHandler);
-app.route("/books", booksRouter);
+app.route("/", routers);
 
 app.notFound(notFoundHandler);
 app.onError(errorHandler);

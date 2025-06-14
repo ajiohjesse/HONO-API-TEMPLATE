@@ -1,33 +1,48 @@
+import { z } from "@hono/zod-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
-import type { Hono } from "hono";
-import { openAPISpecs } from "hono-openapi";
-import { resolver } from "hono-openapi/zod";
-import { z } from "zod";
+import { env } from "cloudflare:workers";
 import { APP_CONFIG } from "./app.config";
-import type { AppEnv } from "./types";
+import type { App } from "./create-app";
+import {
+  errorResponse,
+  paginatedResponse,
+  successResponse,
+  validationErrorResponse,
+} from "./response";
 
-export function setupOpenapi(app: Hono<AppEnv>) {
-  app.get(
-    "/openapi",
-    openAPISpecs(app, {
-      documentation: {
-        info: {
-          title: APP_CONFIG.NAME,
-          version: APP_CONFIG.VERSION,
-          description: APP_CONFIG.DESCRIPTION,
-        },
-        components: {
-          securitySchemes: {
-            bearerAuth: {
-              type: "http",
-              scheme: "bearer",
-              bearerFormat: "JWT",
-            },
-          },
-        },
-      },
-    })
-  );
+export function setupOpenapi(app: App) {
+  if (env.MODE === "production") return;
+
+  const registry = app.openAPIRegistry;
+
+  registry.registerComponent("securitySchemes", "Bearer", {
+    type: "http",
+    scheme: "bearer",
+  });
+
+  registry.registerComponent("securitySchemes", "RefreshToken", {
+    type: "apiKey",
+    in: "cookie",
+    name: "refresh_token",
+  });
+
+  const sampleSchema = z
+    .record(z.string(), z.unknown())
+    .openapi({ example: {} });
+
+  registry.register("SuccessResponse", successResponse(sampleSchema));
+  registry.register("PaginatedResponseSchema", paginatedResponse(sampleSchema));
+  registry.register("ErrorResponseSchema", errorResponse());
+  registry.register("ValidationErrorResponseSchema", validationErrorResponse());
+
+  app.doc("/openapi", {
+    openapi: "3.0.0",
+    info: {
+      title: APP_CONFIG.NAME,
+      version: APP_CONFIG.VERSION,
+      description: APP_CONFIG.DESCRIPTION,
+    },
+  });
 
   app.get(
     "/docs",
@@ -42,41 +57,4 @@ export function setupOpenapi(app: Hono<AppEnv>) {
       },
     })
   );
-}
-
-const baseResponseSchema = z.object({
-  success: z.boolean().openapi({ example: true }),
-  statusCode: z.number().openapi({ example: 200 }),
-  message: z.string().openapi({ example: "Success" }),
-});
-
-export function openApiJsonContent(schema: z.Schema) {
-  return {
-    "application/json": {
-      schema: resolver(
-        z.object({
-          ...baseResponseSchema.shape,
-          data: schema,
-        })
-      ),
-    },
-  };
-}
-
-export function openApiPaginatedJsonContent(schema: z.Schema) {
-  return {
-    "application/json": {
-      schema: resolver(
-        z.object({
-          ...baseResponseSchema.shape,
-          data: z.object({
-            items: schema.array(),
-            currentPage: z.number().openapi({ example: 1 }),
-            totalItems: z.number().openapi({ example: 100 }),
-            pageSize: z.number().openapi({ example: 10 }),
-          }),
-        })
-      ),
-    },
-  };
 }

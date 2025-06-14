@@ -1,24 +1,23 @@
-import type { ApiResponse, AppEnv } from "@/libs/types";
+import type { ErrorResponse } from "@/libs/response";
+import type { AppContext } from "@/libs/types";
 import { createMiddleware } from "hono/factory";
 import { verify } from "hono/jwt";
 
-export const authMiddleware = createMiddleware<{
-  Bindings: AppEnv["Bindings"];
-  Variables: AppEnv["Variables"] & { userId: string };
+export const requireAuth = createMiddleware<{
+  Bindings: AppContext["Bindings"];
+  Variables: AppContext["Variables"] & { userId: string };
 }>(async (c, next) => {
   const authHeader = c.req.header("Authorization");
-  const token = authHeader?.replace(/^Bearer\s/, "");
+  const token = authHeader?.split(" ")[1];
 
   if (!token) {
-    return c.json<ApiResponse>(
-      {
-        success: false,
-        message: "Missing Authorization token",
-        statusCode: 401,
-        data: null,
+    const data: ErrorResponse = {
+      error: {
+        code: "UNAUTHENTICATED",
+        message: "Missing authentication token",
       },
-      401
-    );
+    };
+    return c.json(data, 401);
   }
 
   try {
@@ -29,14 +28,12 @@ export const authMiddleware = createMiddleware<{
     c.set("userId", payload.sub as string);
     await next();
   } catch {
-    return c.json<ApiResponse>(
-      {
-        success: false,
-        message: "Invalid or expired token",
-        statusCode: 401,
-        data: null,
+    const data: ErrorResponse = {
+      error: {
+        code: "UNAUTHENTICATED",
+        message: "Authentication failed",
       },
-      401
-    );
+    };
+    return c.json(data, 401);
   }
 });

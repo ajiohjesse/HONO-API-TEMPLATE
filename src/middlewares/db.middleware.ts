@@ -1,13 +1,9 @@
 import { createDatabase } from "@/database";
-import { AppEnv } from "@/libs/types";
-import { MiddlewareHandler } from "hono";
+import type { AppContext } from "@/libs/types";
+import type { MiddlewareHandler } from "hono";
 
-export const dbMiddleware: MiddlewareHandler<AppEnv> = (c, next) => {
-  const { DB_URL, MODE } = c.env;
-  const db = createDatabase({
-    url: DB_URL,
-    isDev: MODE === "development",
-  });
+export const dbMiddleware: MiddlewareHandler<AppContext> = async (c, next) => {
+  const db = await createDatabase();
   c.set("db", db);
   return next();
 };

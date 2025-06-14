@@ -14,7 +14,7 @@ A minimal yet powerful Hono starter template built for [Cloudflare Workers](http
 ## 📦 Features
 
 - **⚡ Fast Dev with Bun:** Built using Bun for fast installs and execution.
-- **📘 OpenAPI Docs:** Routes are automatically documented using `hono-openapi`.
+- **📘 OpenAPI Docs:** Routes are automatically documented using `@hono/zod-openapi`.
 - **🧪 First-Class Testing:** Configured for `vitest` with Cloudflare's `vitest-pool-workers`.
 - **🛠️ Clean Codebase:** Prettier and ESLint for consistent formatting and linting.
 - **🔒 Environment Safety:** All env vars are strongly typed and managed via `.dev.vars`.
@@ -46,8 +46,6 @@ If your test environment requires different variables, create:
 ```bash
 .dev.vars.test
 ```
-
-> ☝️ **Note:** All environment variables must be added to the `AppEnv` type in [`./src/libs/types.ts`](./src/libs/types.ts) for type safety and validation.
 
 ---
 
@@ -97,19 +95,11 @@ Runs ESLint and Prettier respectively.
 
 ## 📚 API Documentation
 
-Start your dev server and view OpenAPI docs at localhost:8787/docs:
+Start your dev server and view OpenAPI docs at localhost:8787/docs
 
 ```
 bun run dev
 ```
-
----
-
-## 📌 Conventions
-
-- All new env variables **must** be declared in `AppEnv` (inside `src/libs/types.ts`)
-- Avoid hardcoding secrets in source files
-- Use `.dev.vars` for local development only
 
 ---
 

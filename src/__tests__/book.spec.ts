@@ -7,4 +7,9 @@ describe("Books route", () => {
     const res = await app.request("/books", {}, env);
     expect(res.status).toBe(200);
   });
+
+  it("POST /books - should return 401", async () => {
+    const res = await app.request("/books", { method: "post" }, env);
+    expect(res.status).toBe(401);
+  });
 });

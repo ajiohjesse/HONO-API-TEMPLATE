@@ -1,18 +1,18 @@
+import { env } from "cloudflare:workers";
 import { drizzle } from "drizzle-orm/neon-http";
-import { drizzle as nodeDrizzle } from "drizzle-orm/postgres-js";
 import * as schema from "./schemas";
 
-export function createDatabase({
-  url,
-  isDev,
-}: {
-  url: string;
-  isDev: boolean;
-}) {
-  //for using local postgres in development
-  if (isDev)
-    return nodeDrizzle(url, { schema, casing: "snake_case", logger: true });
-  return drizzle(url, { schema, casing: "snake_case" });
+export async function createDatabase() {
+  //for using local postgres in development & testing
+  if (env.MODE === "development" || env.MODE === "test") {
+    const { drizzle: devDrizzle } = await import("drizzle-orm/postgres-js");
+    return devDrizzle(env.DB_URL, {
+      schema,
+      casing: "snake_case",
+      logger: true,
+    });
+  }
+  return drizzle(env.DB_URL, { schema, casing: "snake_case" });
 }
 
-export type DB = ReturnType<typeof createDatabase>;
+export type DB = Awaited<ReturnType<typeof createDatabase>>;

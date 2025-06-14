@@ -1,5 +1,5 @@
-# rename to .env.vars
-
+# rename to .dev.vars
 MODE=development
 JWT_SECRET=
 DB_URL=postgresql://postgres:<password>@127.0.0.1:5432/<database_name>
+ALLOWED_API_ORIGINS=localhost:3000,localhost:3001
